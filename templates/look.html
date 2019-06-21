@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>报表展示</title>
+    <script src="{{ url_for('static',filename='jquery-3.3.1.js ') }}"></script>
+    <script src="{{ url_for('static',filename='echarts.min.js') }}"></script>
+
+    <style>
+        body {
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            width: 1300px;
+            text-align: center;
+        }
+
+        #body_id {
+            background-color: #ff4daf;
+            margin: 0 auto;
+            width: 1300px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>s
+<div id="body_id">
+    <p><a href="http://view.officeapps.live.com/op/view.aspx?src={{ url_for('static',filename='bbb.xlsx') }}">asdasdasdasdadsas</a>
+    </p>
+
+    <iframe src="../static/pdf/微信机器人操作手册.pdf"
+            width="70%" height="70%">
+    </iframe>
+
+</div>
+</body>
+</html>

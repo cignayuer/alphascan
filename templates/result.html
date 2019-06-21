@@ -1,0 +1,838 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>自动报表生成</title>
+    <script src="./statics/jquery-3.3.1.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="./library/echarts.min.js"></script>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            margin: 0 auto;
+            width: 1300px;
+            text-align: left;
+        }
+
+        div {
+            background-color: #FFFFFF;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        table {
+            background-color: #FFFFFF;
+            width: 99%;
+            margin: 0 auto;
+            border: 1px solid #151515;
+            border-collapse: collapse;
+            font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+        }
+
+        h3 {
+            color: #000000;
+            margin: 0 auto;
+            padding: 0.1em;
+            font-size: 100%;
+            font-weight: bold;
+        }
+
+        th {
+            border: 1px solid #151515;
+            text-align: left;
+            background-color: #40466e;
+            padding: 0.1em
+        }
+
+        td {
+            text-align: left;
+            border: 1px solid #151515;
+            padding: 0.1em
+        }
+
+        .html_table_th {
+            text-align: center;
+            background-color: #b7dee8;
+            color: #000000;
+            font-weight: bold;
+            min-width: 70px
+        }
+
+        .cc_count {
+            text-align: left;
+            background-color: #fcd5b4;
+            color: #000000;
+        }
+
+        .value_per {
+            text-align: left;
+            background-color: #fde9d9;
+            color: #000000;
+        }
+
+        .tt_count {
+            text-align: left;
+            background-color: #ffffcc;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .value {
+            text-align: center;
+        }
+
+        .range_first {
+            text-align: center;
+            font-weight: bold;
+            background-color: #fc011b;
+            font-size: 1.1em
+        }
+
+        .range_second {
+            text-align: center;
+            font-weight: bold;
+            background-color: #fe2e43;
+            font-size: 1.1em
+        }
+
+        .range_third {
+            text-align: center;
+            font-weight: bold;
+            background-color: #fe6373;
+            font-size: 1.1em
+        }
+
+        .range_last {
+            text-align: center;
+            font-weight: bold;
+            background-color: #f9ff0f;
+            font-size: 1.1em
+        }
+
+        .range_reverse_second {
+            text-align: center;
+            font-weight: bold;
+            background-color: #fcff6f;
+            font-size: 1.1em
+        }
+
+        .range_reverse_third {
+            text-align: center;
+            font-weight: bold;
+            background-color: #fdffb7;
+            font-size: 1.1em
+        }
+
+        #full_div {
+            display: block;
+            margin: auto;
+            width: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="full_div">
+    <!--mark-mark-mark-->
+    <table>
+        <caption><h3>成都CMB—(20190415)</h3></caption>
+        <thead>
+        <tr>
+            <th rowspan="3" class="html_table_th">CC Mgr</th>
+            <th rowspan="3" class="html_table_th">编号</th>
+            <th rowspan="3" class="html_table_th">Supervisor</th>
+            <th colspan="5" class="html_table_th">业绩</th>
+            <th colspan="3" class="html_table_th">出勤</th>
+            <th colspan="3" class="html_table_th">破零</th>
+        </tr>
+        <tr>
+            <th class="html_table_th">目标</th>
+            <th class="html_table_th">完成</th>
+            <th class="html_table_th">完成比</th>
+            <th class="html_table_th">完成比排名</th>
+            <th class="html_table_th">保费</th>
+            <th class="html_table_th">应出</th>
+            <th class="html_table_th">实出</th>
+            <th class="html_table_th">出勤率</th>
+            <th class="html_table_th">上线人数</th>
+            <th class="html_table_th">破零人数</th>
+            <th class="html_table_th">破零率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td rowspan="3">尖刀队</td>
+            <td class="value">AA1</td>
+            <td>Jason Chen</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">800</td>
+            <td class="value">50</td>
+            <td class="value">40</td>
+            <td class="value_per value">80.0%</td>
+            <td class="value">2000</td>
+            <td class="value">1000</td>
+            <td class="value_per value">50.0%</td>
+        </tr>
+        <tr>
+            <td class="value">AA2</td>
+            <td>Leo Li</td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="tms_range value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+        </tr>
+        <tr>
+            <td class="value">AA3</td>
+            <td>X战队</td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="tms_range value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">尖刀队 汇总</td>
+            <td class="cc_count value">1000</td>
+            <td class="cc_count value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="tms_range cc_count value">8</td>
+            <td class="cc_count value">800</td>
+            <td class="cc_count value">50</td>
+            <td class="cc_count value">40</td>
+            <td class="value_per value">80.0%</td>
+            <td class="cc_count value">2000</td>
+            <td class="cc_count value">1000</td>
+            <td class="value_per value">50.0%</td>
+        </tr>
+        <tr>
+            <td rowspan="4">Bright Song</td>
+            <td class="value">B1</td>
+            <td>Bill Gong</td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="tms_range value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+        </tr>
+        <tr>
+            <td class="value">B2</td>
+            <td>Ivy Liu</td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="tms_range value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+            <td class="value"></td>
+            <td class="value"></td>
+            <td class="value_per value"></td>
+        </tr>
+        <tr>
+            <td class="value">B3</td>
+            <td>Lucky Ding</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">800</td>
+            <td class="value">50</td>
+            <td class="value">40</td>
+            <td class="value_per value">80.0%</td>
+            <td class="value">2000</td>
+            <td class="value">1500</td>
+            <td class="value_per value">75.0%</td>
+        </tr>
+        <tr>
+            <td class="value">B4</td>
+            <td>Yvonne Liu</td>
+            <td class="value">1000</td>
+            <td class="value">901</td>
+            <td class="value_per value">90.1%</td>
+            <td class="range_reverse_second value">19</td>
+            <td class="value">801</td>
+            <td class="value">51</td>
+            <td class="value">40</td>
+            <td class="value_per value">78.4%</td>
+            <td class="value">2000</td>
+            <td class="value">1501</td>
+            <td class="value_per value">75.0%</td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">Bright Song 汇总</td>
+            <td class="cc_count value">2000</td>
+            <td class="cc_count value">1801</td>
+            <td class="value_per value">90.0%</td>
+            <td class="tms_range cc_count value">7</td>
+            <td class="cc_count value">1601</td>
+            <td class="cc_count value">101</td>
+            <td class="cc_count value">80</td>
+            <td class="value_per value">79.2%</td>
+            <td class="cc_count value">4000</td>
+            <td class="cc_count value">3001</td>
+            <td class="value_per value">75.0%</td>
+        </tr>
+        <tr>
+            <td rowspan="4">Eric Liu</td>
+            <td class="value">E1</td>
+            <td>Anne Tan</td>
+            <td class="value">1000</td>
+            <td class="value">902</td>
+            <td class="value_per value">90.2%</td>
+            <td class="range_reverse_third value">18</td>
+            <td class="value">802</td>
+            <td class="value">52</td>
+            <td class="value">40</td>
+            <td class="value_per value">76.9%</td>
+            <td class="value">2000</td>
+            <td class="value">1502</td>
+            <td class="value_per value">75.1%</td>
+        </tr>
+        <tr>
+            <td class="value">E2</td>
+            <td>Mamie Yao</td>
+            <td class="value">1000</td>
+            <td class="value">903</td>
+            <td class="value_per value">90.3%</td>
+            <td class="tms_range value">17</td>
+            <td class="value">803</td>
+            <td class="value">53</td>
+            <td class="value">40</td>
+            <td class="value_per value">75.5%</td>
+            <td class="value">2000</td>
+            <td class="value">1503</td>
+            <td class="value_per value">75.1%</td>
+        </tr>
+        <tr>
+            <td class="value">E3</td>
+            <td>Ryan Zhou</td>
+            <td class="value">1000</td>
+            <td class="value">904</td>
+            <td class="value_per value">90.4%</td>
+            <td class="tms_range value">16</td>
+            <td class="value">804</td>
+            <td class="value">54</td>
+            <td class="value">40</td>
+            <td class="value_per value">74.1%</td>
+            <td class="value">2000</td>
+            <td class="value">1504</td>
+            <td class="value_per value">75.2%</td>
+        </tr>
+        <tr>
+            <td class="value">E4</td>
+            <td>Lynn Li</td>
+            <td class="value">1000</td>
+            <td class="value">905</td>
+            <td class="value_per value">90.5%</td>
+            <td class="tms_range value">15</td>
+            <td class="value">805</td>
+            <td class="value">55</td>
+            <td class="value">40</td>
+            <td class="value_per value">72.7%</td>
+            <td class="value">2000</td>
+            <td class="value">1505</td>
+            <td class="value_per value">75.2%</td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">Eric Liu 汇总</td>
+            <td class="cc_count value">4000</td>
+            <td class="cc_count value">3614</td>
+            <td class="value_per value">90.3%</td>
+            <td class="tms_range cc_count value">6</td>
+            <td class="cc_count value">3214</td>
+            <td class="cc_count value">214</td>
+            <td class="cc_count value">160</td>
+            <td class="value_per value">74.8%</td>
+            <td class="cc_count value">8000</td>
+            <td class="cc_count value">6014</td>
+            <td class="value_per value">75.2%</td>
+        </tr>
+        <tr>
+            <td rowspan="4">King Huang</td>
+            <td class="value">K1</td>
+            <td>Aaron Tang</td>
+            <td class="value">1000</td>
+            <td class="value">906</td>
+            <td class="value_per value">90.6%</td>
+            <td class="tms_range value">14</td>
+            <td class="value">806</td>
+            <td class="value">56</td>
+            <td class="value">40</td>
+            <td class="value_per value">71.4%</td>
+            <td class="value">2000</td>
+            <td class="value">1506</td>
+            <td class="value_per value">75.3%</td>
+        </tr>
+        <tr>
+            <td class="value">K2</td>
+            <td>Hale Huo</td>
+            <td class="value">1000</td>
+            <td class="value">907</td>
+            <td class="value_per value">90.7%</td>
+            <td class="tms_range value">13</td>
+            <td class="value">807</td>
+            <td class="value">57</td>
+            <td class="value">40</td>
+            <td class="value_per value">70.2%</td>
+            <td class="value">2000</td>
+            <td class="value">1507</td>
+            <td class="value_per value">75.3%</td>
+        </tr>
+        <tr>
+            <td class="value">K3</td>
+            <td>Simba Fu</td>
+            <td class="value">1000</td>
+            <td class="value">908</td>
+            <td class="value_per value">90.8%</td>
+            <td class="tms_range value">12</td>
+            <td class="value">808</td>
+            <td class="value">58</td>
+            <td class="value">40</td>
+            <td class="value_per value">69.0%</td>
+            <td class="value">2000</td>
+            <td class="value">1508</td>
+            <td class="value_per value">75.4%</td>
+        </tr>
+        <tr>
+            <td class="value">K4</td>
+            <td>Winnie Tan</td>
+            <td class="value">1000</td>
+            <td class="value">909</td>
+            <td class="value_per value">90.9%</td>
+            <td class="tms_range value">11</td>
+            <td class="value">809</td>
+            <td class="value">59</td>
+            <td class="value">40</td>
+            <td class="value_per value">67.8%</td>
+            <td class="value">2000</td>
+            <td class="value">1509</td>
+            <td class="value_per value">75.4%</td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">King Huang 汇总</td>
+            <td class="cc_count value">4000</td>
+            <td class="cc_count value">3630</td>
+            <td class="value_per value">90.8%</td>
+            <td class="tms_range cc_count value">4</td>
+            <td class="cc_count value">3230</td>
+            <td class="cc_count value">230</td>
+            <td class="cc_count value">160</td>
+            <td class="value_per value">69.6%</td>
+            <td class="cc_count value">8000</td>
+            <td class="cc_count value">6030</td>
+            <td class="value_per value">75.4%</td>
+        </tr>
+        <tr>
+            <td rowspan="4">Logan Bai</td>
+            <td class="value">L1</td>
+            <td>Andy Liu</td>
+            <td class="value">1000</td>
+            <td class="value">910</td>
+            <td class="value_per value">91.0%</td>
+            <td class="tms_range value">10</td>
+            <td class="value">810</td>
+            <td class="value">60</td>
+            <td class="value">40</td>
+            <td class="value_per value">66.7%</td>
+            <td class="value">2000</td>
+            <td class="value">1510</td>
+            <td class="value_per value">75.5%</td>
+        </tr>
+        <tr>
+            <td class="value">L2</td>
+            <td>Maia Li</td>
+            <td class="value">1000</td>
+            <td class="value">911</td>
+            <td class="value_per value">91.1%</td>
+            <td class="tms_range value">9</td>
+            <td class="value">811</td>
+            <td class="value">61</td>
+            <td class="value">40</td>
+            <td class="value_per value">65.6%</td>
+            <td class="value">2000</td>
+            <td class="value">1511</td>
+            <td class="value_per value">75.5%</td>
+        </tr>
+        <tr>
+            <td class="value">L3</td>
+            <td>Martin Ma</td>
+            <td class="value">1000</td>
+            <td class="value">912</td>
+            <td class="value_per value">91.2%</td>
+            <td class="tms_range value">8</td>
+            <td class="value">812</td>
+            <td class="value">62</td>
+            <td class="value">40</td>
+            <td class="value_per value">64.5%</td>
+            <td class="value">2000</td>
+            <td class="value">1512</td>
+            <td class="value_per value">75.6%</td>
+        </tr>
+        <tr>
+            <td class="value">L4</td>
+            <td>Logan Bai</td>
+            <td class="value">1000</td>
+            <td class="value">913</td>
+            <td class="value_per value">91.3%</td>
+            <td class="tms_range value">7</td>
+            <td class="value">813</td>
+            <td class="value">63</td>
+            <td class="value">40</td>
+            <td class="value_per value">63.5%</td>
+            <td class="value">2000</td>
+            <td class="value">1513</td>
+            <td class="value_per value">75.6%</td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">Logan Bai 汇总</td>
+            <td class="cc_count value">4000</td>
+            <td class="cc_count value">3646</td>
+            <td class="value_per value">91.1%</td>
+            <td class="tms_range cc_count value">2</td>
+            <td class="cc_count value">3246</td>
+            <td class="cc_count value">246</td>
+            <td class="cc_count value">160</td>
+            <td class="value_per value">65.0%</td>
+            <td class="cc_count value">8000</td>
+            <td class="cc_count value">6046</td>
+            <td class="value_per value">75.6%</td>
+        </tr>
+        <tr>
+            <td rowspan="3">Nathan Lei</td>
+            <td class="value">N1</td>
+            <td>Horace Hu</td>
+            <td class="value">1000</td>
+            <td class="value">914</td>
+            <td class="value_per value">91.4%</td>
+            <td class="tms_range value">6</td>
+            <td class="value">814</td>
+            <td class="value">64</td>
+            <td class="value">40</td>
+            <td class="value_per value">62.5%</td>
+            <td class="value">2000</td>
+            <td class="value">1514</td>
+            <td class="value_per value">75.7%</td>
+        </tr>
+        <tr>
+            <td class="value">N2</td>
+            <td>Lily Chen</td>
+            <td class="value">1000</td>
+            <td class="value">915</td>
+            <td class="value_per value">91.5%</td>
+            <td class="tms_range value">5</td>
+            <td class="value">815</td>
+            <td class="value">65</td>
+            <td class="value">40</td>
+            <td class="value_per value">61.5%</td>
+            <td class="value">2000</td>
+            <td class="value">1515</td>
+            <td class="value_per value">75.8%</td>
+        </tr>
+        <tr>
+            <td class="value">N3</td>
+            <td>Tessie Tang</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">816</td>
+            <td class="value">66</td>
+            <td class="value">40</td>
+            <td class="value_per value">60.6%</td>
+            <td class="value">2000</td>
+            <td class="value">1516</td>
+            <td class="value_per value">75.8%</td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">Nathan Lei 汇总</td>
+            <td class="cc_count value">3000</td>
+            <td class="cc_count value">2729</td>
+            <td class="value_per value">91.0%</td>
+            <td class="tms_range cc_count value">3</td>
+            <td class="cc_count value">2445</td>
+            <td class="cc_count value">195</td>
+            <td class="cc_count value">120</td>
+            <td class="value_per value">61.5%</td>
+            <td class="cc_count value">6000</td>
+            <td class="cc_count value">4545</td>
+            <td class="value_per value">75.8%</td>
+        </tr>
+        <tr>
+            <td rowspan="6">Andy Hu</td>
+            <td class="value">A1</td>
+            <td>Bonnie Gao</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">817</td>
+            <td class="value">67</td>
+            <td class="value">40</td>
+            <td class="value_per value">59.7%</td>
+            <td class="value">2000</td>
+            <td class="value">1517</td>
+            <td class="value_per value">75.8%</td>
+        </tr>
+        <tr>
+            <td class="value">A2</td>
+            <td>Even Yue</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">818</td>
+            <td class="value">68</td>
+            <td class="value">40</td>
+            <td class="value_per value">58.8%</td>
+            <td class="value">2000</td>
+            <td class="value">1518</td>
+            <td class="value_per value">75.9%</td>
+        </tr>
+        <tr>
+            <td class="value">A3</td>
+            <td>Robin Sun</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">819</td>
+            <td class="value">69</td>
+            <td class="value">40</td>
+            <td class="value_per value">58.0%</td>
+            <td class="value">2000</td>
+            <td class="value">1519</td>
+            <td class="value_per value">75.9%</td>
+        </tr>
+        <tr>
+            <td class="value">A4</td>
+            <td>Lisa Zhou</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">820</td>
+            <td class="value">70</td>
+            <td class="value">40</td>
+            <td class="value_per value">57.1%</td>
+            <td class="value">2000</td>
+            <td class="value">1520</td>
+            <td class="value_per value">76.0%</td>
+        </tr>
+        <tr>
+            <td class="value">A5</td>
+            <td>Max Yang</td>
+            <td class="value">1000</td>
+            <td class="value">900</td>
+            <td class="value_per value">90.0%</td>
+            <td class="range_last value">20</td>
+            <td class="value">821</td>
+            <td class="value">71</td>
+            <td class="value">40</td>
+            <td class="value_per value">56.3%</td>
+            <td class="value">2000</td>
+            <td class="value">1521</td>
+            <td class="value_per value">76.0%</td>
+        </tr>
+        <tr>
+            <td class="value">A6</td>
+            <td>Mike Chang</td>
+            <td class="value">1000</td>
+            <td class="value">922</td>
+            <td class="value_per value">92.2%</td>
+            <td class="tms_range value">4</td>
+            <td class="value">822</td>
+            <td class="value">72</td>
+            <td class="value">40</td>
+            <td class="value_per value">55.6%</td>
+            <td class="value">2000</td>
+            <td class="value">1522</td>
+            <td class="value_per value">76.1%</td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">Andy Hu 汇总</td>
+            <td class="cc_count value">6000</td>
+            <td class="cc_count value">5422</td>
+            <td class="value_per value">90.4%</td>
+            <td class="tms_range cc_count value">5</td>
+            <td class="cc_count value">4917</td>
+            <td class="cc_count value">417</td>
+            <td class="cc_count value">240</td>
+            <td class="value_per value">57.6%</td>
+            <td class="cc_count value">12000</td>
+            <td class="cc_count value">9117</td>
+            <td class="value_per value">76.0%</td>
+        </tr>
+        <tr>
+            <td rowspan="3">新兵训练营</td>
+            <td class="value">XX1</td>
+            <td>Aable Xu</td>
+            <td class="value">1000</td>
+            <td class="value">925</td>
+            <td class="value_per value">92.5%</td>
+            <td class="range_second value">2</td>
+            <td class="value">823</td>
+            <td class="value">73</td>
+            <td class="value">40</td>
+            <td class="value_per value">54.8%</td>
+            <td class="value">2000</td>
+            <td class="value">1523</td>
+            <td class="value_per value">76.1%</td>
+        </tr>
+        <tr>
+            <td class="value">XX2</td>
+            <td>Judy Zhu</td>
+            <td class="value">1000</td>
+            <td class="value">925</td>
+            <td class="value_per value">92.5%</td>
+            <td class="range_second value">2</td>
+            <td class="value">824</td>
+            <td class="value">74</td>
+            <td class="value">40</td>
+            <td class="value_per value">54.1%</td>
+            <td class="value">2000</td>
+            <td class="value">1524</td>
+            <td class="value_per value">76.2%</td>
+        </tr>
+        <tr>
+            <td class="value">XX3</td>
+            <td>Nancy Yang</td>
+            <td class="value">1000</td>
+            <td class="value">928</td>
+            <td class="value_per value">92.8%</td>
+            <td class="range_first value">1</td>
+            <td class="value">825</td>
+            <td class="value">75</td>
+            <td class="value">40</td>
+            <td class="value_per value">53.3%</td>
+            <td class="value">2000</td>
+            <td class="value">1525</td>
+            <td class="value_per value">76.2%</td>
+        </tr>
+        <tr>
+            <td class="cc_count" colspan="3">新兵训练营 汇总</td>
+            <td class="cc_count value">3000</td>
+            <td class="cc_count value">2778</td>
+            <td class="value_per value">92.6%</td>
+            <td class="tms_range cc_count value">1</td>
+            <td class="cc_count value">2472</td>
+            <td class="cc_count value">222</td>
+            <td class="cc_count value">120</td>
+            <td class="value_per value">54.1%</td>
+            <td class="cc_count value">6000</td>
+            <td class="cc_count value">4572</td>
+            <td class="value_per value">76.2%</td>
+        </tr>
+        <tr>
+            <td class="tt_count" colspan="3">TOTAL</td>
+            <td class="tt_count value">27000</td>
+            <td class="tt_count value">24520</td>
+            <td class="value_per value">90.8%</td>
+            <td class="tms_range value"></td>
+            <td class="cc_count value">21925</td>
+            <td class="tt_count value">1675</td>
+            <td class="tt_count value">1080</td>
+            <td class="value_per value">64.5%</td>
+            <td class="tt_count value">54000</td>
+            <td class="tt_count value">40325</td>
+            <td class="value_per value">74.7%</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    window.onload = function () {
+
+        //打开全屏方法
+        function openFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullScreen();
+            }
+        }
+
+        //退出全屏方法
+        function exitFullScreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExiFullscreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+
+        //div全屏(全屏方法1)
+        document.getElementById("full_div").addEventListener('click', function () {
+            openFullscreen(this); //调用上面全屏方法1
+        }, false);
+
+        //绘制蓝色外圈
+        function blueCircle(n) {
+            context.save();
+            context.strokeStyle = "#fff"; //设置描边样式
+            context.lineWidth = 5; //设置线宽
+            context.beginPath(); //路径开始
+            context.arc(centerX, centerY, 100, -Math.PI / 2, -Math.PI / 2 + n * rad, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+            context.stroke(); //绘制
+            context.closePath(); //路径结束
+            context.restore();
+        }
+
+        //绘制白色外圈
+        function whiteCircle() {
+            context.save();
+            context.beginPath();
+            context.strokeStyle = "white";
+            context.arc(centerX, centerY, 100, 0, Math.PI * 2, false);
+            context.stroke();
+            context.closePath();
+            context.restore();
+        }
+
+        //百分比文字绘制
+        function text(n) {
+            context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+            context.strokeStyle = "#fff"; //设置描边样式
+            context.font = "40px Arial"; //设置字体大小和字体
+            //绘制字体，并且指定位置
+            context.strokeText(n.toFixed(0) + "%", centerX - 25, centerY + 10);
+            context.stroke(); //执行绘制
+            context.restore();
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>报表展示</title>
+        <script src="{{ url_for('static',filename='jquery-3.3.1.js ') }}"></script>
+        <script src="{{ url_for('static',filename='echarts.min.js') }}"></script>
+
+{#    <script src="./library/jquery-3.3.1.js"></script>#}
+    {#    <script src="./library/echarts.min.js"></script>#}
+    <style>
+        body {
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            width: 1300px;
+            text-align: center;
+        }
+
+        #body_id {
+            background-color: #FFFFFF;
+            margin: 0 auto;
+            width: 1300px;
+            text-align: center;
+        }
+
+        .div_td {
+            background-color: #FFFFFF;
+            margin: 0 auto;
+            width: 500px;
+            height: 400px;
+            color: #FF0000;
+            text-align: center;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div id="body_id">
+    <h1>实时监控</h1>
+    <div>
+        <div id="div_1" class="div_td">
+            无法显示
+        </div>
+
+        <div id="div_2" class="div_td">
+            无法显示
+        </div>
+
+        <div id="div_3" class="div_td">
+            无法显示
+        </div>
+
+        <div id="div_4" class="div_td">
+            无法显示
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+
+        //打开全屏方法
+        function openFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullScreen();
+            }
+        }
+
+        //退出全屏方法
+        function exitFullScreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExiFullscreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+
+        //div全屏(全屏方法1)
+
+        document.getElementById("body_id").addEventListener('click', function () {
+            openFullscreen(this); //调用上面全屏方法1
+        }, false);
+
+
+        //绘制蓝色外圈
+        function blueCircle(n) {
+            context.save();
+            context.strokeStyle = "#fff"; //设置描边样式
+            context.lineWidth = 5; //设置线宽
+            context.beginPath(); //路径开始
+            context.arc(centerX, centerY, 100, -Math.PI / 2, -Math.PI / 2 + n * rad, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+            context.stroke(); //绘制
+            context.closePath(); //路径结束
+            context.restore();
+        }
+
+        //绘制白色外圈
+        function whiteCircle() {
+            context.save();
+            context.beginPath();
+            context.strokeStyle = "white";
+            context.arc(centerX, centerY, 100, 0, Math.PI * 2, false);
+            context.stroke();
+            context.closePath();
+            context.restore();
+        }
+
+        //百分比文字绘制
+        function text(n) {
+            context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+            context.strokeStyle = "#fff"; //设置描边样式
+            context.font = "40px Arial"; //设置字体大小和字体
+            //绘制字体，并且指定位置
+            context.strokeText(n.toFixed(0) + "%", centerX - 25, centerY + 10);
+            context.stroke(); //执行绘制
+            context.restore();
+        }
+
+    };
+
+    function data_random_one(start = 0, end = 10) {
+        return Math.floor(Math.random() * (end - start + 1) + start)
+    }
+
+    function data_random(start = 0, end = 10, length = 6) {
+        let list = [];
+        for (let i = 0; i < length; i++) {
+            list.push(data_random_one(start, end));
+        }
+        return list
+    }
+
+    function data_random_dict(name_list, start = 0, end = 100) {
+        let list = [];
+        for (let i = 0; i < name_list.length; i++) {
+            list.push({value: data_random_one(start, end), name: name_list[i]})
+        }
+        return list
+    }
+
+    var i = 0;
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('div_1'));
+    var myChart2 = echarts.init(document.getElementById('div_2'));
+    var myChart3 = echarts.init(document.getElementById('div_3'));
+    var myChart4 = echarts.init(document.getElementById('div_4'));
+
+    // 指定图表的配置项和数据
+    var option1 = {
+        title: {
+            text: '模拟条形图',
+            x: 'center',
+            y: 'bottom'
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量']
+        },
+        xAxis: {
+            data: ["A", "B", "C", "D", "E", "F"]
+        },
+        yAxis: {},
+        series: [{
+            name: '增量',
+            type: 'bar',
+            data: data_random(start = 0, end = 100)
+        }]
+    };
+    var option2 = {
+        title: {
+            text: '模拟折线图',
+            x: 'center',
+            y: 'bottom'
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量']
+        },
+        xAxis: {
+            data: ["A", "B", "C", "D", "E", "F"]
+        },
+        yAxis: {},
+        series: [{
+            name: '增量',
+            type: 'line',
+            data: data_random(start = 0, end = 100)
+        }]
+    };
+
+    var name_list = ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '其它'];
+    var option3 = {
+        title: {
+            text: '访问量统计',
+            x: 'center',
+            y: 'bottom'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '其它']
+        },
+        series: [{
+            name: '访问来源',
+            type: 'pie',
+            radius: '55%',
+            center: ['50%', '60%'],
+            data: data_random_dict(name_list, start = 10, end = 100),
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }]
+    };
+    var option4 = {
+        title: {
+            text: '饱和折线图',
+            x: 'center',
+            y: 'bottom'
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量']
+        },
+        xAxis: {
+            type: 'category',
+            boundary: false,
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            areaStyle: {},
+            name: '增量',
+            type: 'line',
+            data: data_random(start = 0, end = 100)
+        }]
+    };
+    myChart1.setOption(option1, true);
+    myChart2.setOption(option2, true);
+    myChart3.setOption(option3, true);
+    myChart4.setOption(option4, true);
+
+    function update_chart() {
+        $.get('/test/get', aa = function (data, status) {
+            console.log(typeof data);
+            if (status === "success") {
+                var name_list = ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '其它'];
+                var option1 = myChart1.getOption();
+                var option2 = myChart2.getOption();
+                var option3 = myChart3.getOption();
+                var option4 = myChart4.getOption();
+                var ppp = JSON.parse(data);
+                option1.series[0].data = ppp.aaa;
+                option2.series[0].data = ppp.bbb;
+                option3.series[0].data = data_random_dict(name_list, start = 10, end = 100);
+                option4.series[0].data = ppp.ddd;
+                myChart1.setOption(option1, true);
+                myChart2.setOption(option2, true);
+                myChart3.setOption(option3, true);
+                myChart4.setOption(option4, true);
+            }
+        });
+        self.setTimeout(update_chart, 2000);
+    }
+
+    // 使用刚指定的配置项和数据显示图表。
+    self.setTimeout(update_chart, 2000);
+
+
+</script>
+
+</body>
+</html>
